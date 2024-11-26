@@ -33,17 +33,13 @@ class Frame:
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 1
         "*** YOUR CODE HERE ***"
-        if self.bindings[symbol] != None:
+        if symbol in self.bindings.keys():
             return self.bindings[symbol]
+        elif self.parent != None:
+            return self.parent.lookup(symbol)
         else:
-            if self.parent == None:
-                raise SchemeError("No parent frame.")
-    
-            while True:
-                self.parent.lookup(symbol)
-                
+            raise SchemeError('unknown identifier: {0}'.format(symbol))
         # END PROBLEM 1
-        raise SchemeError('unknown identifier: {0}'.format(symbol))
 
 
     def make_child_frame(self, formals, vals):
