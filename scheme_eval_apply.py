@@ -19,6 +19,7 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     >>> scheme_eval(expr, create_global_frame())
     4
     """
+    
     # Evaluate atoms
     if scheme_symbolp(expr):
         return env.lookup(expr)
@@ -91,7 +92,17 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 6
-    return scheme_eval(expressions.first, env) # replace this with lines of your own code
+    if expressions == nil:
+        return None
+    
+    while True:
+        if expressions.rest != nil:
+            scheme_eval(expressions.first, env)
+            expressions = expressions.rest
+        else:
+            return scheme_eval(expressions.first, env)
+    
+    return scheme_eval(expressions.first, env)
     # END PROBLEM 6
 
 
