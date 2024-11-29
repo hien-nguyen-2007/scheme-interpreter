@@ -1,1 +1,1 @@
-Current status: Part 2 problem 8
+Current status: Completted Part 2 problem 10
