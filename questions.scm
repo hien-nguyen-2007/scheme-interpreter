@@ -7,7 +7,17 @@
 ;; Returns a list of two-element lists
 (define (enumerate s)
   ; BEGIN PROBLEM 15
-  'replace-this-line 
+  (if (null? s)
+    '()
+    (cons (list 0 (car s))
+      (let ((rest (enumerate (cdr s))))
+        (map (lambda (pair)
+               (list (+ 1 (car pair)) (cadr pair)))
+          rest
+          )
+        )
+      )
+    )
   )
   ; END PROBLEM 15
 
@@ -17,7 +27,7 @@
 ;; the merged lists.
 (define (merge ordered? s1 s2)
   ; BEGIN PROBLEM 16
-  'replace-this-line
+    ()
   )
   ; END PROBLEM 16
 
