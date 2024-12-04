@@ -106,7 +106,7 @@ def eval_all(expressions, env):
         else:
             return scheme_eval(expressions.first, env)
     
-    return scheme_eval(expressions.first, env)
+    # return scheme_eval(expressions.first, env)
     # END PROBLEM 6
 
 

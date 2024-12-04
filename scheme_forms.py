@@ -44,7 +44,7 @@ def do_define_form(expressions, env):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
         "*** YOUR CODE HERE ***"
-        validate_formals(signature.rest)    
+        validate_formals(signature.rest)
         env.define(signature.first, LambdaProcedure(signature.rest, expressions.rest, env))
         return signature.first
         # END PROBLEM 10
@@ -124,6 +124,16 @@ def do_and_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
+    if expressions is nil:
+        return True
+    while True:
+        first = scheme_eval(expressions.first, env)
+        if is_scheme_true(first):
+            expressions = expressions.rest
+            if expressions is nil:
+                return first
+        else:
+            return first
     # END PROBLEM 12
 
 def do_or_form(expressions, env):
@@ -142,6 +152,15 @@ def do_or_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
+    if expressions is nil:
+        return False
+    while True:
+        first = scheme_eval(expressions.first, env)
+        if is_scheme_true(first):
+            return first
+        expressions = expressions.rest
+        if expressions is nil:
+            return first
     # END PROBLEM 12
 
 def do_cond_form(expressions, env):
