@@ -35,7 +35,7 @@ class Frame:
         "*** YOUR CODE HERE ***"
         if symbol in self.bindings.keys():
             return self.bindings[symbol]
-        elif self.parent != None:
+        elif self.parent is not None:
             return self.parent.lookup(symbol)
         else:
             raise SchemeError('unknown identifier: {0}'.format(symbol))
@@ -72,7 +72,7 @@ class Frame:
                 return child
                 
             
-        return child
+        # return child
         # END PROBLEM 8
 
 ##############
@@ -80,7 +80,7 @@ class Frame:
 ##############
 
 class Procedure:
-    """The the base class for all Procedure classes."""
+    """The base class for all Procedure classes."""
 
 class BuiltinProcedure(Procedure):
     """A Scheme procedure defined as a Python function."""
