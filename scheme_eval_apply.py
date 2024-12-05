@@ -35,9 +35,9 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     else:
         # BEGIN PROBLEM 3
         "*** YOUR CODE HERE ***"
-        procedure = scheme_eval(first, env)
-        args = rest.map(lambda x: scheme_eval(x, env))
-        return scheme_apply(procedure, args, env)
+        procedure = scheme_eval(first, env) # gets operation to be done
+        args = rest.map(lambda x: scheme_eval(x, env)) # gets objects to perform action on
+        return scheme_apply(procedure, args, env) #returns objects with operation performed
         # END PROBLEM 3
 
 def scheme_apply(procedure, args, env):
@@ -51,30 +51,30 @@ def scheme_apply(procedure, args, env):
         "*** YOUR CODE HERE ***"
         translated_arguments = []
         while args != nil:
-            translated_arguments.append(args.first)
-            args = args.rest
+            translated_arguments.append(args.first) # adds arg to list
+            args = args.rest # shortens args so more added to list
         
         # END PROBLEM 2
         try:
             # BEGIN PROBLEM 2
             "*** YOUR CODE HERE ***"
             if procedure.need_env:
-                return procedure.py_func(*translated_arguments, env)
+                return procedure.py_func(*translated_arguments, env) # perform operation in environment if needed
             else:
-                return procedure.py_func(*translated_arguments)
+                return procedure.py_func(*translated_arguments) # otherwise perform in current environment
             # END PROBLEM 2
         except TypeError as err:
             raise SchemeError('incorrect number of arguments: {0}'.format(procedure))
     elif isinstance(procedure, LambdaProcedure):
         # BEGIN PROBLEM 9
         "*** YOUR CODE HERE ***"
-        child_frame = procedure.env.make_child_frame(procedure.formals, args)
-        return eval_all(procedure.body, child_frame)
+        child_frame = procedure.env.make_child_frame(procedure.formals, args) # makes frame that is child of environment w/ formals & definitions defined in there
+        return eval_all(procedure.body, child_frame) # evaluates all args passed in child frame
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
         "*** YOUR CODE HERE ***"
-        child_frame = env.make_child_frame(procedure.formals, args)
+        child_frame = env.make_child_frame(procedure.formals, args) #virtually same as problem 9
         return eval_all(procedure.body, child_frame)
         # END PROBLEM 11
     else:
@@ -99,7 +99,7 @@ def eval_all(expressions, env):
     if expressions == nil:
         return None
     
-    while True:
+    while True: #loops through & evaluates expressions in given env, returns rightmost arg evaluated
         if expressions.rest != nil:
             scheme_eval(expressions.first, env)
             expressions = expressions.rest

@@ -37,15 +37,15 @@ def do_define_form(expressions, env):
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 4
         "*** YOUR CODE HERE ***"
-        env.define(signature, scheme_eval(expressions.rest.first, env))
+        env.define(signature, scheme_eval(expressions.rest.first, env)) # defines & returns name of defined
         return signature
         # END PROBLEM 4
     elif isinstance(signature, Pair) and scheme_symbolp(signature.first):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
         "*** YOUR CODE HERE ***"
-        validate_formals(signature.rest)
-        env.define(signature.first, LambdaProcedure(signature.rest, expressions.rest, env))
+        validate_formals(signature.rest) #defines & returns name of defined
+        env.define(signature.first, LambdaProcedure(signature.rest, expressions.rest, env)) #organizes into proper form first
         return signature.first
         # END PROBLEM 10
     else:
@@ -62,7 +62,7 @@ def do_quote_form(expressions, env):
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    return expressions.first
+    return expressions.first #returns 1-argument call's argument, ie. returns what was called
     # END PROBLEM 5
 
 def do_begin_form(expressions, env):
@@ -90,7 +90,7 @@ def do_lambda_form(expressions, env):
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
     body = expressions.rest
-    return LambdaProcedure(formals, body, env)
+    return LambdaProcedure(formals, body, env) #makes lambda out of lambda creation argument
     # END PROBLEM 7
 
 def do_if_form(expressions, env):
@@ -124,9 +124,9 @@ def do_and_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
-    if expressions is nil:
+    if expressions is nil: # returns true if nothing passed in
         return True
-    while True:
+    while True: # evaluates each expression; false upon the first false & returns the false-setting arg, otherwise returns rightmost arg value
         first = scheme_eval(expressions.first, env)
         if is_scheme_true(first):
             expressions = expressions.rest
@@ -152,9 +152,9 @@ def do_or_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
-    if expressions is nil:
+    if expressions is nil: # returns false for empty or args in Scheme
         return False
-    while True:
+    while True: # evaluates args until a true is found & returns that true arg, returns rightmost arg if no true is found
         first = scheme_eval(expressions.first, env)
         if is_scheme_true(first):
             return first
@@ -181,9 +181,9 @@ def do_cond_form(expressions, env):
         if is_scheme_true(test):
             # BEGIN PROBLEM 13
             "*** YOUR CODE HERE ***"
-            if clause.rest is nil:
+            if clause.rest is nil: # returns true if no args & test is true
                 return test
-            return eval_all(clause.rest, env)
+            return eval_all(clause.rest, env) # if test still true, returns last value, otherwise loops back to get to last value
             # END PROBLEM 13
         expressions = expressions.rest
 
@@ -208,14 +208,14 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
-    while bindings:
-        validate_form(bindings.first, 2, 2)
+    while bindings: # adds names & vals to separate lists before binding them
+        validate_form(bindings.first, 2, 2)  # ensures bindings are valid form
         name = bindings.first.first
         val = scheme_eval(bindings.first.rest.first, env)
         names = Pair(name, names)
         vals = Pair(val, vals)
         bindings = bindings.rest
-    validate_formals(names)
+    validate_formals(names) #ensures names are valid
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
 

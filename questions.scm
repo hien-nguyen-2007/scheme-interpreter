@@ -8,9 +8,9 @@
 (define (enumerate s)
   ; BEGIN PROBLEM 15
   (if (null? s)
-    '()
-    (cons (list 0 (car s))
-      (let ((rest (enumerate (cdr s))))
+    '() ; returns empty list if nothing is enumerated
+    (cons (list 0 (car s)) ; if something is enumerated, build a list from the first element
+      (let ((rest (enumerate (cdr s)))) ; then recursively build the list from subsequent elements & join
         (map (lambda (pair)
                (list (+ 1 (car pair)) (cadr pair)))
           rest
@@ -27,7 +27,14 @@
 ;; the merged lists.
 (define (merge ordered? s1 s2)
   ; BEGIN PROBLEM 16
-    ()
+    (cond
+    ((null? s1) s2) ; If s1 is empty, return s2
+    ((null? s2) s1) ; If s2 is empty, return s1
+    ((ordered? (car s1) (car s2))
+     (cons (car s1) (merge ordered? (cdr s1) s2))) ; Use head of s1
+    (else
+     (cons (car s2) (merge ordered? s1 (cdr s2))))
+      )
   )
   ; END PROBLEM 16
 

@@ -34,11 +34,11 @@ class Frame:
         # BEGIN PROBLEM 1
         "*** YOUR CODE HERE ***"
         if symbol in self.bindings.keys():
-            return self.bindings[symbol]
+            return self.bindings[symbol] # returns fetched value relating to symbol if it exists
         elif self.parent is not None:
-            return self.parent.lookup(symbol)
+            return self.parent.lookup(symbol) # otherwise looks for symbol in parent bindings
         else:
-            raise SchemeError('unknown identifier: {0}'.format(symbol))
+            raise SchemeError('unknown identifier: {0}'.format(symbol)) # if no parent has it either, error
         # END PROBLEM 1
 
 
@@ -60,9 +60,9 @@ class Frame:
         child = Frame(self)
         
         if formals == nil:
-            return child
+            return child #returns child if no other args passed in
         
-        while True:
+        while True: #defines each formal for its arg val in the child frame, then returns child frame
             if formals.rest != nil:
                 child.define(formals.first, vals.first)
                 formals = formals.rest
